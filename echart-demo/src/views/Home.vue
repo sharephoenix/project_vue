@@ -1,11 +1,13 @@
 <template>
   <div>
+    <div @click="nexta">next</div>
     <header>小试牛刀</header>
+    <Test :a1="a1" :a2="a2"></Test>
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
     <div id="main" 
     class="main"
     style="width: 600px; height:400px; border: 1px solid black;">
-
+    <div style="position: absolute;">asdfasdfadsf</div>
     </div>
   </div>
 </template>
@@ -15,6 +17,12 @@ import echarts from 'echarts'
 
 export default {
   name: 'Home',
+  data () {
+    return {
+      a1: '----',
+      a2: '++++'
+    }
+  },
   methods: {
     drawBar() {
       var myChart = echarts.init(document.getElementById('main'));
@@ -23,6 +31,7 @@ export default {
             title: {
                 text: 'ECharts 入门示例'
             },
+            color: ['#e2e2e2','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
             tooltip: {},
             legend: {
                 data:['销量']
@@ -33,6 +42,7 @@ export default {
             yAxis: {},
             series: [
               {
+                barWidth: 30,
                 name: '销量',
                 type: 'bar',
                 data: [5, 20, 36, 10, 10, 99]
@@ -100,9 +110,11 @@ export default {
     },
     drawBar2 () {
       var myChart = echarts.init(document.getElementById('main'));
+ 
       const option = {
           legend: {},
-          tooltip: {},
+          // tooltip: {},
+          color: ['#ff0000', '#00ff00', '#0000ff'],
           dataset: {
               // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
               // 如果不指定 dimensions，也可以通过指定 series.encode 完成映射，参见后文。
@@ -114,19 +126,112 @@ export default {
                   {product: 'Walnut Brownie', '2015': 12.4, '2016': 53.9, '2017': 39.1}
               ]
           },
-          xAxis: {type: 'category'},
-          yAxis: {},
+          xAxis: {type: 'category',
+          axisLabel: {
+            interval: 0,
+            rotate: 45,
+            margin: 8,
+            textStyle: {
+              color: '#222'
+            }
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#e1e5e9', // y坐标轴的轴线颜色
+              width: 1 // 这里是坐标轴的宽度,可以去掉
+            }
+          },
+          },
+          yAxis: {
+            axisLabel: {
+              formatter: function (value) {
+                window.console.log('tttt:', typeof value)
+                return Number(value / 3).toFixed(2)
+              }
+            }
+          },
           series: [
-              {type: 'bar'},
               {type: 'line'},
+              {type: 'bar', barWidth: 45},
               {type: 'line'}
+              // {type: 'bar'},
+              // {type: 'bar'}
           ]
       };
       myChart.setOption(option)
+      setTimeout(() => {
+        myChart.setOption(option)
+      }, 5000)
+    },
+    drawBar3() {
+      var myChart = echarts.init(document.getElementById('main'));
+
+      const option = {
+          title: {
+              text: '世界人口总量',
+              subtext: '数据来自网络'
+          },
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                  type: 'shadow'
+              }
+          },
+          legend: {
+              data: ['2011年', '2012年']
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          xAxis: {
+              type: 'value',
+              boundaryGap: [0, 0.01]
+          },
+          yAxis: {
+              type: 'category',
+              data: ['巴西','印尼','美国','印度','中国','世界人口(万)']
+          },
+          series: [
+              {
+                  name: '2011年',
+                  type: 'bar',
+                  label: {
+                    normal: {
+                        show: true,
+                        position: 'right',
+                        formatter: () => {
+                          return 'label'
+                        }
+                    }
+                  },
+                  data: [18203, 23489, 29034, 104970, 131744, 630230]
+              },
+              {
+                  name: '2012年',
+                  type: 'bar',
+                  data: [19325, 23438, 31000, 121594, 134141, 681807]
+              }
+          ]
+      }
+      myChart.setOption(option)
+    },
+    nexta () {
+      this.$router.push('/test')
     }
   },
   mounted () {
     this.drawBar2()
+    setTimeout(() => {
+      this.a1 = 'aaaaa'
+      this.a2 = 'bbbbb'
+    }, 2000)
+  },
+  components: {
+    Test: () => import('./Test')
   }
 }
 </script>
