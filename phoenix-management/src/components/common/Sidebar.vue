@@ -40,8 +40,9 @@
                 </template>
                 <template v-else>
                     <el-menu-item :index="item.index" :key="item.index">
-                        <i :class="item.icon"></i>
-                        <span slot="title">{{ item.title }}</span>
+                        <!-- <i :class="item.icon">icon</i> -->
+                        <!-- <span slot="title">{{ item.title }}</span> -->
+                        <i>{{ item.title }}</i>
                     </el-menu-item>
                 </template>
             </template>
@@ -181,12 +182,15 @@ export default {
     top: 70px;
     bottom: 0;
     overflow-y: scroll;
+    border: 1px solid red;
 }
 .sidebar::-webkit-scrollbar {
     width: 0;
+    border: 1px solid red;
 }
 .sidebar-el-menu:not(.el-menu--collapse) {
     width: 250px;
+    border: 1px solid green;
 }
 .sidebar > ul {
     height: 100%;
