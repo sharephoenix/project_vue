@@ -16,9 +16,15 @@ export default new Router({
           children: [
               {
                   path: '/dashboard',
-                  component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/HelloWorld.vue'),
+                  component: () => import('../components/page/HelloWorld.vue'),
                   meta: { title: '系统首页' }
-              },]
+              },
+              {
+                path: '/table',
+                component: () => import('../components/page/BaseTable.vue'),
+                meta: { title: '系统首页' }
+              },
+            ]
         }
     ]
   }

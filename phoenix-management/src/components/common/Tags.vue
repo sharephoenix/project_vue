@@ -83,9 +83,9 @@
             }
         },
         watch:{
-            // $route(newValue, oldValue){
-            //     this.setTags(newValue);
-            // }
+            $route(newValue){
+                this.setTags(newValue);
+            }
         },
         created(){
             this.setTags(this.$route);
