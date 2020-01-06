@@ -40,9 +40,8 @@
                 </template>
                 <template v-else>
                     <el-menu-item :index="item.index" :key="item.index">
-                        <!-- <i :class="item.icon">icon</i> -->
-                        <!-- <span slot="title">{{ item.title }}</span> -->
-                        <i>{{ item.title }}</i>
+                        <i :class="item.icon"></i>
+                        <span slot="title">{{ item.title }}</span>
                     </el-menu-item>
                 </template>
             </template>
@@ -58,7 +57,7 @@ export default {
             collapse: false,
             items: [
                 {
-                    icon: 'el-icon-lx-home',
+                    icon: 'el-icon-s-custom',
                     index: 'dashboard',
                     title: '用户管理'
                 },
@@ -182,11 +181,9 @@ export default {
     top: 70px;
     bottom: 0;
     overflow-y: scroll;
-    border: 1px solid red;
 }
 .sidebar::-webkit-scrollbar {
     width: 0;
-    border: 1px solid red;
 }
 .sidebar-el-menu:not(.el-menu--collapse) {
     width: 250px;

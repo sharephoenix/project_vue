@@ -35,7 +35,7 @@
                 <el-table-column prop="name" label="用户名"></el-table-column>
                 <el-table-column label="账户余额">
                     <template slot-scope="scope">￥{{scope.row.money}}</template>
-                </el-table-column>
+                </el-table-column>  
                 <el-table-column label="头像(查看大图)" align="center">
                     <template slot-scope="scope">
                         <el-image
@@ -48,6 +48,7 @@
                 <el-table-column prop="address" label="地址"></el-table-column>
                 <el-table-column label="状态" align="center">
                     <template slot-scope="scope">
+                        
                         <el-tag
                             :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'')"
                         >{{scope.row.state}}</el-tag>
@@ -113,7 +114,9 @@ export default {
                 pageIndex: 1,
                 pageSize: 10
             },
-            tableData: [],
+            tableData: [
+                { "id": 1, "name": "张三", "money": 123, "address": "广东省东莞市长安镇", "state": '失败', "date": "2019-11-1", "thumb": "https://lin-xin.gitee.io/images/post/wms.png" }
+            ],
             multipleSelection: [],
             delList: [],
             editVisible: false,
@@ -156,6 +159,7 @@ export default {
         // 多选操作
         handleSelectionChange(val) {
             this.multipleSelection = val;
+            window.console.log('selection:', val)
         },
         delAllSelection() {
             const length = this.multipleSelection.length;
