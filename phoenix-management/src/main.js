@@ -3,6 +3,10 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue'
 import './assets/css/main.css'
+import './assets/css/icon.css';
+import './components/common/directives';
+import 'babel-polyfill';
+
 import router from './router';
 
 Vue.use(ElementUI)

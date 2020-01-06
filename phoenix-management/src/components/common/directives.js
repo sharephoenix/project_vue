@@ -3,6 +3,7 @@ import Vue from 'vue';
 // v-dialogDrag: 弹窗拖拽属性
 Vue.directive('dialogDrag', {
     bind(el, binding, vnode, oldVnode) {
+        window.console.log(binding, vnode, oldVnode)
         const dialogHeaderEl = el.querySelector('.el-dialog__header');
         const dragDom = el.querySelector('.el-dialog');
 
@@ -42,12 +43,14 @@ Vue.directive('dialogDrag', {
 
             // 注意在ie中 第一次获取到的值为组件自带50% 移动之后赋值为px
             if (styL.includes('%')) {
-                styL = +document.body.clientWidth * (+styL.replace(/\%/g, '') / 100);
-                styT = +document.body.clientHeight * (+styT.replace(/\%/g, '') / 100);
+                // styL = +document.body.clientWidth * (+styL.replace(/\%/g, '') / 100);
+                // styT = +document.body.clientHeight * (+styT.replace(/\%/g, '') / 100);
+                styL = +document.body.clientWidth * (+styL.replace(/%/g, '') / 100);
+                styT = +document.body.clientHeight * (+styT.replace(/%/g, '') / 100);
             } else {
                 styL = +styL.replace(/\px/g, '');
                 styT = +styT.replace(/\px/g, '');
-            };
+            }
 
             document.onmousemove = function (e) {
                 // 通过事件委托，计算移动的距离 
@@ -72,6 +75,7 @@ Vue.directive('dialogDrag', {
             };
 
             document.onmouseup = function (e) {
+                window.console.log(e)
                 document.onmousemove = null;
                 document.onmouseup = null;
             };
