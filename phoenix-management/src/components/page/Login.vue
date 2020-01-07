@@ -59,7 +59,6 @@ export default {
             }
             const { code: codeR, data: dataR, msg: msgR } = await login({mobile: this.param.username, code: this.param.password})
             if (codeR === 0) {
-                window.console.log('loginresponse::', dataR)
                 this.$eventBus.$emit('loginUserInfo', dataR)
                 this.$router.push('/home');
             } else {

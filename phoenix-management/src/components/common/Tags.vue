@@ -41,13 +41,13 @@
                 if (item) {
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
                 }else{
-                    this.$router.push('/');
+                    this.$router.push('/home');
                 }
             },
             // 关闭全部标签
             closeAll(){
                 this.tagsList = [];
-                this.$router.push('/');
+                this.$router.push('/home');
             },
             // 关闭其他标签
             closeOther(){
@@ -83,7 +83,8 @@
             }
         },
         watch:{
-            $route(newValue){
+            $route(newValue, oldValue){
+                window.console.log('kkkkk', newValue, oldValue)
                 this.setTags(newValue);
             }
         },
@@ -99,7 +100,7 @@
                         }else if(i > 0){
                             this.$router.push(this.tagsList[i-1].path);
                         }else{
-                            this.$router.push('/');
+                            this.$router.push('/home');
                         }
                         this.tagsList.splice(i, 1);
                         break;

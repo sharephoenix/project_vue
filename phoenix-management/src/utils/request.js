@@ -6,13 +6,10 @@ const service = axios.create({
     // easy-mock服务挂了，暂时不使用了
     baseURL: 'http://localhost:9090',
     timeout: 5000
-});
-
-// window.console.log('headers:', service.headers)
+})
 
 service.interceptors.request.use(
     config => {
-        window.console.log('fffheader::', eventBus.$data.loginInfo)
         config.headers = {
             ...config.headers
         }

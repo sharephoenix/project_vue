@@ -58,8 +58,13 @@ export default {
             items: [
                 {
                     icon: 'el-icon-s-custom',
-                    index: 'dashboard',
+                    index: 'table',
                     title: '用户管理'
+                },
+                {
+                    icon: 'el-icon-s-custom',
+                    index: 'helloworld',
+                    title: 'hellowrold'
                 },
                 // {
                 //     icon: 'el-icon-lx-home',
@@ -160,17 +165,17 @@ export default {
     },
     computed: {
         onRoutes() {
-            return this.$route.path.replace('/', '');
+            return this.$route.path.replace('/', '')
         }
     },
     created() {
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
         bus.$on('collapse', msg => {
-            this.collapse = msg;
-            bus.$emit('collapse-content', msg);
-        });
+            this.collapse = msg
+            bus.$emit('collapse-content', msg)
+        })
     }
-};
+}
 </script>
 
 <style scoped>

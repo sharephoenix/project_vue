@@ -137,6 +137,8 @@ export default {
             //     this.tableData = res.list;
             //     this.pageTotal = res.pageTotal || 50;
             // });
+            // this.$router.push('/home');
+            // this.$router.push('helloworld')
         },
         // 触发搜索按钮
         handleSearch() {

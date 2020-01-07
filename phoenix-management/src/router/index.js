@@ -5,10 +5,10 @@ Vue.use(Router);
 
 export default new Router({
     routes: [
-        {
-            path: '*',
-            redirect: '/login'
-        },
+        // {
+        //     path: '*',
+        //     redirect: '/login'
+        // },
         {
           path: '/home',
           component: () => import('../components/common/Home.vue'),
@@ -16,8 +16,7 @@ export default new Router({
           children: [
               {
                 path: '/',
-                component: () => import('../components/page/HelloWorld.vue'),
-                meta: { title: 'Helloworld' }
+                redirect: '/home/table'
               },
               {
                   path: '/home/helloworld',
