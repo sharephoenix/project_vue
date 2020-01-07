@@ -21,6 +21,11 @@
                 </el-select>
                 <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button
+                    type="text"
+                    icon="el-icon-edit"
+                    @click="showAddData()"
+                >添加</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -32,19 +37,17 @@
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-                <el-table-column prop="name" label="用户名"></el-table-column>
-                <el-table-column label="账户余额">
-                    <template slot-scope="scope">￥{{scope.row.money}}</template>
-                </el-table-column>  
+                <el-table-column align="center" prop="nickname" label="用户名"></el-table-column>
                 <el-table-column label="头像(查看大图)" align="center">
                     <template slot-scope="scope">
                         <el-image
                             class="table-td-thumb"
-                            :src="scope.row.thumb"
-                            :preview-src-list="[scope.row.thumb]"
+                            :src="scope.row.avatar"
+                            :preview-src-list="[scope.row.avatar]"
                         ></el-image>
                     </template>
                 </el-table-column>
+                <el-table-column prop="mobile" label="手机号"></el-table-column>
                 <el-table-column prop="address" label="地址"></el-table-column>
                 <el-table-column label="状态" align="center">
                     <template slot-scope="scope">
@@ -54,7 +57,7 @@
                         >{{scope.row.state}}</el-tag>
                     </template>
                 </el-table-column>
-
+                <el-table-column prop="email" label="邮箱"></el-table-column>
                 <el-table-column prop="date" label="注册时间"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -87,16 +90,48 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
-                <el-form-item label="用户名">
-                    <el-input v-model="form.name"></el-input>
+                 <el-form-item label="昵称">
+                    <el-input v-model="form.nickname"></el-input>
+                </el-form-item>
+                <el-form-item label="头像">
+                    <el-input v-model="form.avatar"></el-input>
+                </el-form-item>
+                <el-form-item label="手机号">
+                    <el-input v-model="form.mobile"></el-input>
                 </el-form-item>
                 <el-form-item label="地址">
                     <el-input v-model="form.address"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                    <el-input v-model="form.email"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false">取 消</el-button>
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="添加" :visible.sync="addVisible" width="30%">
+            <el-form ref="form" :model="addData" label-width="70px">
+                <el-form-item label="昵称">
+                    <el-input v-model="addData.nickname"></el-input>
+                </el-form-item>
+                <el-form-item label="头像">
+                    <el-input v-model="addData.avatar"></el-input>
+                </el-form-item>
+                <el-form-item label="手机号">
+                    <el-input v-model="addData.mobile"></el-input>
+                </el-form-item>
+                <el-form-item label="地址">
+                    <el-input v-model="addData.address"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                    <el-input v-model="addData.email"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="addVisible = false">取 消</el-button>
+                <el-button type="primary" @click="addDataAction">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -115,13 +150,19 @@ export default {
                 pageSize: 10
             },
             tableData: [
-                { "id": 1, "name": "张三", "money": 123, "address": "广东省东莞市长安镇", "state": '失败', "date": "2019-11-1", "thumb": "https://lin-xin.gitee.io/images/post/wms.png" }
+                { "id": '100',
+                "nickname": "alexluan",
+                "mobile": "13700000000",
+                "avatar": "http://t8.baidu.com/it/u=1484500186,1503043093&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1579001524&t=6c70954716841f41bffafb628697889b",
+                "address": "安徽省六安市xx县", "state": '失败', "date": "2019-11-1", "email": "111@qq.com" }
             ],
             multipleSelection: [],
             delList: [],
             editVisible: false,
+            addVisible: false,
             pageTotal: 0,
             form: {},
+            addData: {},
             idx: -1,
             id: -1
         };
@@ -173,6 +214,17 @@ export default {
             this.$message.error(`删除了${str}`);
             this.multipleSelection = [];
         },
+        // 添加用户操作
+        showAddData() {
+            this.addVisible = true
+        },
+        // 添加用户信息
+        addDataAction() {
+            this.addVisible = false
+            window.console.log(this.addData)
+            // this.$message.success(`修改第 ${this.idx + 1} 行成功`)
+            // this.$set(this.tableData, this.idx, this.form)
+        },
         // 编辑操作
         handleEdit(index, row) {
             this.idx = index;
@@ -185,6 +237,7 @@ export default {
             this.$message.success(`修改第 ${this.idx + 1} 行成功`);
             this.$set(this.tableData, this.idx, this.form);
         },
+        
         // 分页导航
         handlePageChange(val) {
             this.$set(this.query, 'pageIndex', val);
