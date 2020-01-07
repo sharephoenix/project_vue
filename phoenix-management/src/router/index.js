@@ -29,7 +29,7 @@ export default new Router({
                 meta: { title: '用户管理' }
               },
               {
-                path: '/tabs',
+                path: '/home/tabs',
                 component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Tabs.vue'),
                 meta: { title: 'tab选项卡' }
             },
