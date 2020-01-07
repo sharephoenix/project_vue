@@ -6,26 +6,36 @@ Vue.use(Router);
 export default new Router({
     routes: [
         {
-            path: '/',
-            redirect: '/dashboard'
+            path: '*',
+            redirect: '/login'
         },
         {
-          path: '/',
+          path: '/home',
           component: () => import('../components/common/Home.vue'),
           meta: { title: '自述文件' },
           children: [
               {
-                  path: '/dashboard',
-                  component: () => import('../components/page/HelloWorld.vue'),
-                  meta: { title: '系统首页' }
+                path: '/',
+                component: () => import('../components/page/HelloWorld.vue'),
+                meta: { title: 'Helloworld' }
               },
               {
-                path: '/table',
+                  path: '/home/helloworld',
+                  component: () => import('../components/page/HelloWorld.vue'),
+                  meta: { title: 'Helloworld' }
+              },
+              {
+                path: '/home/table',
                 component: () => import('../components/page/BaseTable.vue'),
-                meta: { title: '系统首页' }
+                meta: { title: '用户管理' }
               },
             ]
-        }
+        }, 
+        {
+            path: '/login',
+            component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
+            meta: { title: '登录' }
+        },
     ]
   }
 )

@@ -7,7 +7,16 @@
 <script>
 
 export default {
-  name: 'app'
+  name: 'app',
+  mounted () {
+        this.$eventBus.$on('loginUserInfo', (u) => {
+            this.$eventBus.$data.loginInfo = u
+            if (!this.$eventBus.$data.loginInfo) {
+              this.$router.push('/login');
+            }
+            window.console.log('response::', this.$eventBus.$data.loginInfo)
+        })
+    }
 }
 </script>
 

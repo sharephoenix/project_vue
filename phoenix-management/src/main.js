@@ -6,11 +6,11 @@ import './assets/css/main.css'
 import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
-
+import eventBus from '@/components/common/bus'
 import router from './router';
 
 Vue.use(ElementUI)
-
+Vue.prototype.$eventBus = eventBus
 Vue.config.productionTip = false
 
 new Vue({
