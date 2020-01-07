@@ -29,7 +29,7 @@
                 </div>
                 <!-- 用户头像 -->
                 <div class="user-avator">
-                    <img src="../../assets/img/img.jpg" />
+                    <img :src="avatar" />
                 </div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -61,8 +61,12 @@ export default {
     },
     computed: {
         username() {
-            let username = localStorage.getItem('ms_username');
-            return username ? username : this.name;
+            let username = localStorage.getItem('loginUserinfo')
+            return username ? JSON.parse(username).nickname : this.name
+        },
+        avatar () {
+            let username = localStorage.getItem('loginUserinfo')
+            return username ? JSON.parse(username).avatar : require('../../assets/img/img.jpg')
         }
     },
     methods: {

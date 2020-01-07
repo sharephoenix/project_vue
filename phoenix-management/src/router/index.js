@@ -28,6 +28,11 @@ export default new Router({
                 component: () => import('../components/page/BaseTable.vue'),
                 meta: { title: '用户管理' }
               },
+              {
+                path: '/tabs',
+                component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Tabs.vue'),
+                meta: { title: 'tab选项卡' }
+            },
             ]
         }, 
         {

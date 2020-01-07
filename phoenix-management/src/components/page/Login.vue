@@ -60,6 +60,8 @@ export default {
             const { code: codeR, data: dataR, msg: msgR } = await login({mobile: this.param.username, code: this.param.password})
             if (codeR === 0) {
                 this.$eventBus.$emit('loginUserInfo', dataR)
+                window.console.log('rrrresponse::', dataR)
+                localStorage.setItem('loginUserinfo', JSON.stringify(dataR))
                 this.$router.push('/home');
             } else {
                 this.setError(msgR)
