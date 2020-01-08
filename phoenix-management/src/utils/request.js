@@ -11,7 +11,10 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         config.headers = {
-            ...config.headers
+            ...config.headers,
+            ...{
+                Version: '1.0.1'
+            }
         }
         if (eventBus.$data.loginInfo && eventBus.$data.loginInfo.accessToken) {
             config.headers = {

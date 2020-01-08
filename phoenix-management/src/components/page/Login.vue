@@ -79,6 +79,7 @@ export default {
             // })
         },
         setError (msg) {
+            alert(msg)
             this.error = msg
             setTimeout(() => {
                 this.error = '用户和密码随便填写'

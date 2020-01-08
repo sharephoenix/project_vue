@@ -9,7 +9,7 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-button
+                <!-- <el-button
                     type="primary"
                     icon="el-icon-delete"
                     class="handle-del mr10"
@@ -20,10 +20,10 @@
                     <el-option key="2" label="湖南省" value="湖南省"></el-option>
                 </el-select>
                 <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button> -->
                 <el-button
                     type="text"
-                    icon="el-icon-edit"
+                    icon="el-icon-plus"
                     @click="showAddData()"
                 >添加</el-button>
             </div>
@@ -51,10 +51,9 @@
                 <el-table-column prop="address" label="地址"></el-table-column>
                 <el-table-column label="状态" align="center">
                     <template slot-scope="scope">
-                        
                         <el-tag
-                            :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'')"
-                        >{{scope.row.state}}</el-tag>
+                            :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'danger')"
+                        >{{scope.row.state || '未知'}}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="email" label="邮箱"></el-table-column>
@@ -139,6 +138,8 @@
 
 <script>
 
+import { getUsers, registerUser, deleteUser, editUser } from '../../api/index'
+
 export default {
     name: 'BaseTable',
     data() {
@@ -150,11 +151,11 @@ export default {
                 pageSize: 10
             },
             tableData: [
-                { "id": '100',
-                "nickname": "alexluan",
-                "mobile": "13700000000",
-                "avatar": "http://t8.baidu.com/it/u=1484500186,1503043093&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1579001524&t=6c70954716841f41bffafb628697889b",
-                "address": "安徽省六安市xx县", "state": '失败', "date": "2019-11-1", "email": "111@qq.com" }
+                { "id": '--',
+                "nickname": "--",
+                "mobile": "--",
+                "avatar": "--",
+                "address": "--", "email": "--" }
             ],
             multipleSelection: [],
             delList: [],
@@ -168,11 +169,19 @@ export default {
         };
     },
     created() {
-        this.getData();
+        this.getData()
     },
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
+            getUsers().then(res => {
+                const { code, msg, data } = res
+                if (code === 0) {
+                    this.tableData = data
+                } else {
+                    window.console.log('getusers::', msg)
+                }
+            })
             // sendCode(this.query).then(res => {
             //     // console.log(res);
             //     this.tableData = res.list;
@@ -194,8 +203,16 @@ export default {
                 type: 'warning'
             })
                 .then(() => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
+                    deleteUser({mobile: row.mobile}).then(res => {
+                        const { code, msg } = res
+                        if (code === 0) {
+                            this.$message.success('删除成功');
+                            this.tableData.splice(index, 1);
+                        } else {
+                            this.$message.success('删除失败' + msg);
+                        }
+                        
+                    })
                 })
                 .catch(() => {});
         },
@@ -220,10 +237,21 @@ export default {
         },
         // 添加用户信息
         addDataAction() {
-            this.addVisible = false
-            window.console.log(this.addData)
-            // this.$message.success(`修改第 ${this.idx + 1} 行成功`)
-            // this.$set(this.tableData, this.idx, this.form)
+            registerUser({ address: this.addData.address,
+            age: this.addData.age,
+            avatar: this.addData.avatar,
+            email: this.addData.email,
+            mobile: this.addData.mobile,
+            nickname: this.addData.nickname}).then(res => {
+                const { code, msg } = res
+                if (code === 0) {
+                    alert('添加成功')
+                    this.getData()
+                } else {
+                    alert('添加失败' + msg)
+                }
+                this.addVisible = false
+            })            
         },
         // 编辑操作
         handleEdit(index, row) {
@@ -233,9 +261,17 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            this.$set(this.tableData, this.idx, this.form);
+            editUser(this.form)
+            .then(res => {
+                const {code, msg, data} = res
+                if (code === 0) {
+                    this.$message.success(`修改第 ${this.idx + 1} 行成功`)
+                    this.$set(this.tableData, this.idx, data);
+                } else {
+                    alert(`失败：${msg}`)
+                }
+                this.editVisible = false;
+            })
         },
         
         // 分页导航
