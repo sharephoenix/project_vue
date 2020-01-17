@@ -4,7 +4,7 @@ import eventBus from '@/components/common/bus'
 const service = axios.create({
     // process.env.NODE_ENV === 'development' 来判断是否开发环境
     // easy-mock服务挂了，暂时不使用了
-    baseURL: 'http://localhost:9090',
+    baseURL: 'http://95.169.15.20:9090',
     timeout: 5000
 })
 
