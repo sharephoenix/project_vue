@@ -19,7 +19,7 @@ export default new Router({
                 redirect: '/home/table'
               },
               {
-                  path: '/home/helloworld',
+                  path: 'helloworld',
                   component: () => import('../components/page/HelloWorld.vue'),
                   meta: { title: 'Helloworld' }
               },
